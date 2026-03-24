@@ -4,9 +4,9 @@ import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 from fastapi.testclient import TestClient
 
-from agents_service import (
+from rag_service import (
     app,
-    chunk_ssssstore,
+    chunk_store,
     session_store,
     chunk_text,
     cosine_similarity,
@@ -57,7 +57,7 @@ def make_tool_call(name, arguments: dict, call_id="call_abc123"):
 
 @pytest.fixture
 def client_with_mocks():
-    with patch("agent_service.AsyncOpenAI") as mock_cls, \
+    with patch("rag_service.AsyncOpenAI") as mock_cls, \
          patch.dict("os.environ", {"OPENAI_API_KEY": "sk-test-fake"}):
 
         mock_instance = AsyncMock()
@@ -66,11 +66,10 @@ def client_with_mocks():
         )
         mock_cls.return_value = mock_instance
 
-        import agent_service
-        agent_service._openai_client = None
+        import rag_service
+        rag_service._openai_client = None
 
         yield make_test_client(), mock_instance
-
 
 class TestCalculatorTool:
     def test_addition(self):
