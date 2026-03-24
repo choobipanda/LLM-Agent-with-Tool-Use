@@ -4,9 +4,9 @@ import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 from fastapi.testclient import TestClient
 
-from agent_service import (
+from agents_service import (
     app,
-    chunk_store,
+    chunk_ssssstore,
     session_store,
     chunk_text,
     cosine_similarity,
